@@ -1,0 +1,129 @@
+/* Knight of the Hollow — support + privacy pages.
+   Same palette as the game and its App Store screenshots: cave-dark ink, lantern amber, crystal blue. */
+@font-face { font-family: "Big Shoulders Display"; src: url("fonts/BigShouldersDisplay.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("fonts/BarlowSemiCondensed-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("fonts/BarlowSemiCondensed-SemiBold.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+
+:root {
+  --ink: #050817;
+  --night: #0d1550;          /* the game's launch-screen blue */
+  --panel: rgba(13, 21, 80, 0.55);
+  --line: rgba(191, 211, 255, 0.16);
+  --lantern-top: #FFF8EA;
+  --lantern-mid: #FFE3AE;
+  --lantern-low: #FFBE62;
+  --amber: #FFAA3C;
+  --crystal: #BFD3FF;
+  --text: #D6E1FF;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  min-height: 100vh;
+  font-family: "Barlow Semi Condensed", system-ui, -apple-system, sans-serif;
+  font-weight: 500; font-size: 1.15rem; line-height: 1.55; color: var(--text);
+  background:
+    radial-gradient(ellipse 70% 38% at 50% 0%, rgba(255, 170, 60, 0.13), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 50% 100%, rgba(60, 80, 200, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--ink) 0%, #0a1038 55%, var(--ink) 100%);
+  background-attachment: fixed;
+}
+
+/* drifting crystal motes, as in the caves */
+.motes { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.motes i {
+  position: absolute; bottom: -12px; width: 6px; height: 10px; background: var(--crystal); opacity: 0;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  animation: drift 16s linear infinite;
+}
+.motes i:nth-child(1) { left: 8%;  animation-delay: 0s;  animation-duration: 19s; }
+.motes i:nth-child(2) { left: 22%; animation-delay: 5s;  animation-duration: 15s; width: 4px; height: 7px; }
+.motes i:nth-child(3) { left: 41%; animation-delay: 9s;  animation-duration: 21s; }
+.motes i:nth-child(4) { left: 63%; animation-delay: 2s;  animation-duration: 17s; width: 4px; height: 7px; }
+.motes i:nth-child(5) { left: 79%; animation-delay: 7s;  animation-duration: 20s; }
+.motes i:nth-child(6) { left: 92%; animation-delay: 12s; animation-duration: 16s; width: 5px; height: 8px; }
+@keyframes drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.55; }
+  90%  { opacity: 0.35; }
+  100% { transform: translateY(-105vh) translateX(26px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .motes { display: none; } html { scroll-behavior: auto; } }
+
+.wrap { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* header */
+.hero { text-align: center; padding: 3.5rem 0 2rem; }
+.hero img {
+  width: 112px; height: 112px; border-radius: 25px;
+  box-shadow: 0 0 46px rgba(255, 170, 60, 0.35), 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+h1 {
+  margin-top: 1.4rem;
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 900;
+  font-size: clamp(2.8rem, 9vw, 4.6rem); line-height: 0.98; letter-spacing: 0.01em; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--lantern-top) 0%, var(--lantern-mid) 62%, var(--lantern-low) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 26px rgba(255, 170, 60, 0.32)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  padding-bottom: 4px;
+}
+.tagline { margin-top: 0.7rem; color: var(--crystal); font-size: 1.3rem; }
+nav { margin-top: 1.6rem; display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+nav a {
+  padding: 0.45rem 1.2rem; border: 1px solid var(--line); border-radius: 999px;
+  color: var(--crystal); text-decoration: none; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.95rem;
+  background: rgba(5, 8, 23, 0.5);
+}
+nav a:hover, nav a[aria-current="page"] { color: var(--ink); background: var(--amber); border-color: var(--amber); }
+
+/* the cave floor: a thin glowing ledge under the header */
+.ledge { height: 2px; margin: 1.5rem 0 0.5rem; background: linear-gradient(90deg, transparent, var(--crystal), transparent); opacity: 0.45; }
+
+h2 {
+  margin: 2.4rem 0 0.8rem;
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 1.9rem; letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--lantern-mid);
+}
+h2::before { content: "◆ "; color: var(--amber); font-size: 0.7em; vertical-align: 0.15em; }
+h3 { margin: 1.4rem 0 0.4rem; font-weight: 600; color: var(--lantern-top); font-size: 1.2rem; }
+p, ul, ol { margin-bottom: 1rem; }
+ul, ol { padding-left: 1.4rem; }
+li { margin-bottom: 0.4rem; }
+li::marker { color: var(--amber); }
+strong { color: var(--lantern-top); font-weight: 600; }
+a { color: var(--lantern-low); text-underline-offset: 3px; }
+a:hover { color: var(--lantern-top); }
+
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.3rem 1.5rem; margin: 1rem 0 1.4rem; backdrop-filter: blur(4px);
+}
+.card.contact { text-align: center; border-color: rgba(255, 170, 60, 0.4); box-shadow: 0 0 40px rgba(255, 170, 60, 0.08); }
+.card.contact p { margin-bottom: 0.5rem; }
+.btn {
+  display: inline-block; margin-top: 0.4rem; padding: 0.7rem 1.8rem; border-radius: 10px;
+  font-weight: 600; font-size: 1.1rem; letter-spacing: 0.03em; text-decoration: none; color: var(--ink);
+  background: linear-gradient(180deg, var(--lantern-mid), var(--amber)); box-shadow: 0 0 24px rgba(255, 170, 60, 0.3);
+}
+.btn:hover { color: var(--ink); filter: brightness(1.08); }
+
+table { width: 100%; border-collapse: collapse; margin: 0.6rem 0 1.2rem; font-size: 1.05rem; }
+th, td { text-align: left; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--lantern-mid); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.9rem; }
+
+details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; margin: 0.6rem 0; }
+summary { cursor: pointer; padding: 0.9rem 1.2rem; font-weight: 600; color: var(--lantern-top); list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "▸"; color: var(--amber); display: inline-block; width: 1.1rem; transition: transform 0.15s; }
+details[open] > summary::before { transform: rotate(90deg); }
+details > :not(summary) { padding: 0 1.2rem; }
+details > :last-child { padding-bottom: 0.2rem; }
+details[open] { border-color: rgba(255, 170, 60, 0.35); }
+
+.meta { color: var(--crystal); opacity: 0.8; font-size: 1rem; text-align: center; margin-bottom: 1rem; }
+footer { position: relative; z-index: 1; text-align: center; padding: 2.5rem 1.5rem 3rem; color: var(--crystal); opacity: 0.75; font-size: 0.98rem; }
+footer a { color: var(--crystal); }
+
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 560px) { body { font-size: 1.08rem; } th, td { padding: 0.5rem 0.4rem; } }
